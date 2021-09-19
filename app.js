@@ -7,12 +7,21 @@ var db = new sqlite3.Database('database.db');
 
 app.use(express.json()); 
 
+app.get('/createDB',(req,res)=>{
+    db.serialize(function() {
+      db.run("create table if not exists lorem (info text,description)");
+      });
+      
+      db.close();
+    res.send({kq:"hello world"})
+})
+
 app.get('/', (req, res) => { 
     db.serialize(function() {
       
-        var stmt = db.prepare("INSERT INTO lorem VALUES (?)");
+        var stmt = db.prepare("INSERT INTO lorem VALUES (?,?)");
         for (var i = 0; i < 10; i++) {
-            stmt.run("Ipsum " + i);
+            stmt.run(["Ipsum "+ i,"description"]);
         }
         stmt.finalize();
       
