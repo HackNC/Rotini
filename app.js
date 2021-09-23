@@ -2,18 +2,12 @@ const express = require('express');
 const app = express();
 const PORT = process.env.PORT || 4201;
 
-const services = require('./services')
-
-var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('database.db', (err) => {
-    err ? console.error(err.message) : console.log("Connected to database")
-});
-
 app.use(express.json()); 
 
+const services = require('./services')
 app.use(services)
 
-app.get('/', (req, res) => { 
+// app.get('/', (req, res) => { 
     // db.serialize(function() {
       
     //     var stmt = db.prepare("INSERT INTO lorem VALUES (?,?)");
@@ -28,8 +22,8 @@ app.get('/', (req, res) => {
     //   });
       
     //   db.close();
-    res.send("Nothing's here")
- });
+//     res.send("Nothing's here")
+//  });
 
 app.listen(PORT, () => {
     console.log(`Listening to localhost:${PORT}`)

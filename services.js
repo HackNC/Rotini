@@ -2,10 +2,12 @@ const express = require("express")
 const router = express.Router();
 
 var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('database.db');
+var db = new sqlite3.Database('database.db', (err) => {
+    err ? console.error(err.message) : console.log("Connected to database")
+});
 
 router.get('/createHackerTable',(req,res)=>{
-    db.serialize(function() {
+    db.run(function() {
       db.run("CREATE TABLE if not exists hacker_table (id integer, first_name text, last_name text, email email, uuid blob)");
       });
     res.send("Hacker Table Created")
