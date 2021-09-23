@@ -22,11 +22,11 @@ router.get('/createEventTable',(req,res)=> {
     });
     res.send("Event Table Created")
 })
- 
 
 router.get('/', (req, res) => {
     db.all(
-        'SELECT * FROM hacker_table', (err, rows) => {
+        `SELECT * 
+        FROM ${hacker_table}`, (err, rows) => {
             res.send(rows)
         }
     )
@@ -37,7 +37,8 @@ router.get('/insert/:id/:eventName',(req,res)=>{
     const eventName = req.params.eventName;
 
     db.run(
-        'INSERT INTO events_table VALUE(?,?)',[id, eventName],() => {
+        `INSERT INTO ${events_table} 
+        VALUE(?,?)`,[id, eventName],() => {
             res.send('Insert To Event Table Successfully')
         }
     )
@@ -50,7 +51,8 @@ router.get('/insert/:id/:first_name/:last_name/:email/:uuid', (req, res) => {
     const email = req.params.email;
     const uuid = req.params.uuid;
     db.run(
-        'INSERT INTO hacker_table VALUES (?, ?, ?, ?, ?)', [id, first_name, last_name, email, uuid], () => {
+        `INSERT INTO ${hacker_table} 
+        VALUES (?, ?, ?, ?, ?)`, [id, first_name, last_name, email, uuid], () => {
             res.send('Insert To Hacker Table Successfully')
         }
     )
@@ -76,7 +78,8 @@ router.get('/updateRow/:table/:updatethis/:tothis', (req, res) => {
 
 router.get('/deleteRow', (req, res) => {
     db.run(
-        'DELETE FROM hacker_table WHERE uuid=?', "123456789", (err) => {
+        `DELETE FROM ${hacker_table} 
+        WHERE uuid=?`, "123456789", (err) => {
             res.send({kq: 'row deleted'})
         }
 
