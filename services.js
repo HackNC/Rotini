@@ -1,3 +1,4 @@
+const bodyParser = require("body-parser");
 const express = require("express")
 const router = express.Router();
 
@@ -7,16 +8,37 @@ var db = new sqlite3.Database('database.db', (err) => {
 });
 
 router.get('/createHackerTable',(req,res)=>{
-    db.run(function() {
-      db.run("CREATE TABLE if not exists hacker_table (id integer, first_name text, last_name text, email email, uuid blob)");
-      });
+    db.serialize(function() {
+        db.run("CREATE TABLE if not exists hacker_table (id integer, first_name text, last_name text, email email, uuid blob)");
+        db.close();
+    });
     res.send("Hacker Table Created")
 })
+
+router.get('/createEventTable',(req,res)=> {
+    db.serialize(function(){
+        db.run("CREATE TABLE if not exists events_table (id integer, eventName text)");
+        db.close();
+    });
+    res.send("Event Table Created")
+})
+ 
 
 router.get('/', (req, res) => {
     db.all(
         'SELECT * FROM hacker_table', (err, rows) => {
             res.send(rows)
+        }
+    )
+})
+
+router.get('/insert/:id/:eventName',(req,res)=>{
+    const id = req.params.id;
+    const eventName = req.params.eventName;
+
+    db.run(
+        'INSERT INTO events_table VALUE(?,?)',[id, eventName],() => {
+            res.send('Insert To Event Table Successfully')
         }
     )
 })
@@ -29,20 +51,24 @@ router.get('/insert/:id/:first_name/:last_name/:email/:uuid', (req, res) => {
     const uuid = req.params.uuid;
     db.run(
         'INSERT INTO hacker_table VALUES (?, ?, ?, ?, ?)', [id, first_name, last_name, email, uuid], () => {
-            res.send('Insert successfully')
+            res.send('Insert To Hacker Table Successfully')
         }
     )
 })
 
-router.get('/updateRow/:updatethis/:tothis', (req, res) => {
+router.get('/updateRow/:table/:updatethis/:tothis', (req, res) => {
     const updatethis = req.params.updatethis
     const tothis = req.params.tothis
-    req = 
+    const table = req.params.table 
     db.run(
-        'UPDATE hacker_table SET id=? WHERE description=?', [tothis, updatethis], function(err) {
-        if (err) {
-          return console.error(err.message);
-        }
+        `UPDATE ${table} 
+        SET id=? 
+        WHERE description=?`, 
+        [tothis, updatethis], 
+        function(err) {
+            if (err) {
+                return console.error(err.message);
+            }
         res.send({'updated': 1})
       
       });
