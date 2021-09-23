@@ -4,8 +4,14 @@ const PORT = process.env.PORT || 4201;
 
 app.use(express.json()); 
 
+app.use(express.urlencoded({extended: true}))
+
 const services = require('./services')
 app.use(services)
+
+app.get('/form', (req, res) => {
+    res.sendFile(__dirname + "/form.html")
+})
 
 // app.get('/', (req, res) => { 
     // db.serialize(function() {
