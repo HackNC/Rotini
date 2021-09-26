@@ -32,14 +32,14 @@ router.get('/', (req, res) => {
     )
 })
 
-router.get('/insert/:id/:eventName',(req,res)=>{
+
+router.get('/insert/:id/:eventName',(req,res) => {
     const id = req.params.id;
     const eventName = req.params.eventName;
 
     db.run(
-        `INSERT INTO ${events_table} 
-        VALUE(?,?)`,[id, eventName],() => {
-            res.send('Insert To Event Table Successfully')
+        `INSERT INTO ${event_table} VALUES (?,?)`,[id, eventName],() =>{
+            res.send('Insert into Event Table successfully')
         }
     )
 })
