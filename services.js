@@ -55,8 +55,8 @@ router.get('/insert/:firstName/:lastName/:email/:uuid', (req, res) => {
     const email = req.params.email;
     const uuid = req.params.uuid;
     db.run(
-        `INSERT INTO hackerTable 
-        VALUES (1, ?, ?, ?, ?)`, 
+        `INSERT INTO hackerTable (firstName, lastName, email, uuid)
+        VALUES (?, ?, ?, ?)`, 
         [firstName, lastName, email, uuid], 
         () => {
             res.send('Insert To Hacker Table Successfully')
