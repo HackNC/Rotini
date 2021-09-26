@@ -19,7 +19,9 @@ router.get('/:table', (req, res) => {
 
 router.get('/createHackerTable',(req,res)=>{
     db.serialize(function() {
-        db.run("CREATE TABLE if not exists hackerTable (id integer, firstName text, lastName text, email email, uuid blob)");
+        db.run(
+            "CREATE TABLE if not exists hackerTable (id integer, firstName text, lastName text, email email, uuid blob)"
+        );
         // db.close();
     });
     res.send("Hacker Table Created")
@@ -27,7 +29,9 @@ router.get('/createHackerTable',(req,res)=>{
 
 router.get('/createEventTable',(req,res)=> {
     db.serialize(function(){
-        db.run("CREATE TABLE if not exists eventTable (id integer, eventName text)");
+        db.run(
+            "CREATE TABLE if not exists eventTable (id integer, eventName text)"
+        );
         // db.close();
     });
     res.send("Event Table Created")
@@ -39,7 +43,10 @@ router.get('/insert/:id/:eventName',(req,res) => {
     const eventName = req.params.eventName;
 
     db.run(
-        `INSERT INTO event_table VALUES (?,?)`,[id, eventName],() =>{
+        `INSERT INTO eventTable
+        VALUES (?,?)`,
+        [id, eventName],
+        () =>{
             res.send('Insert into Event Table successfully')
         }
     )
@@ -52,8 +59,10 @@ router.get('/insert/:id/:firstName/:lastName/:email/:uuid', (req, res) => {
     const email = req.params.email;
     const uuid = req.params.uuid;
     db.run(
-        `INSERT INTO hacker_table 
-        VALUES (?, ?, ?, ?, ?)`, [id, firstName, lastName, email, uuid], () => {
+        `INSERT INTO hackerTable 
+        VALUES (?, ?, ?, ?, ?)`, 
+        [id, firstName, lastName, email, uuid], 
+        () => {
             res.send('Insert To Hacker Table Successfully')
         }
     )
@@ -68,7 +77,7 @@ router.get('/updateRow/:table/:updateThis/:toThis', (req, res) => {
         SET id=? 
         WHERE description=?`, 
         [toThis, updateThis], 
-        function(err) {
+        (err) => {
             if (err) {
                 return console.error(err.message);
             }
@@ -84,7 +93,9 @@ router.get('/deleteRow/:table/:toDelete/:deleteDetail', (req, res) => {
 
     db.run(
         `DELETE FROM ${table} 
-        WHERE ${toDelete}=?`, [deleteDetail], (err) => {
+        WHERE ${toDelete}=?`, 
+        [deleteDetail], 
+        (err) => {
             (err) && console.error(err) 
             res.send({kq: 'row deleted'})
         }
