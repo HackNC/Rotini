@@ -1,12 +1,29 @@
 const express = require("express")
 const router = express.Router();
 
-var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('database.db', (err) => {
-    err ? console.error(err.message) : console.log("Connected to database")
-});
+const db = require('./database')
 
-router.get('/:table', (req, res) => {
+router.get('/createHackerTable',(req,res)=>{
+    db.serialize(function() {
+        db.run(
+            "CREATE TABLE if not exists hackerTable (id integer primary key, firstName text, lastName text, email email, uuid blob)"
+        );
+        // db.close();
+    });
+    res.send("Hacker Table Created")
+})
+
+router.get('/createEventTable',(req,res)=> {
+    db.serialize(function(){
+        db.run(
+            "CREATE TABLE if not exists eventTable (id integer primary key, eventName text)"
+        );
+        // db.close();
+    });
+    res.send("Event Table Created")
+})
+
+router.get('/table/:table', (req, res) => {
     const table = req.params.table
     db.all(
         `SELECT * 
@@ -17,28 +34,8 @@ router.get('/:table', (req, res) => {
     )
 })
 
-router.get('/createHackerTable',(req,res)=>{
-    db.serialize(function() {
-        db.run(
-            "CREATE TABLE if not exists hackerTable (id integer, firstName text, lastName text, email email, uuid blob)"
-        );
-        // db.close();
-    });
-    res.send("Hacker Table Created")
-})
 
-router.get('/createEventTable',(req,res)=> {
-    db.serialize(function(){
-        db.run(
-            "CREATE TABLE if not exists eventTable (id integer, eventName text)"
-        );
-        // db.close();
-    });
-    res.send("Event Table Created")
-})
-
-
-router.get('/insert/:id/:eventName',(req,res) => {
+router.get('/insert/:eventName',(req,res) => {
     const id = req.params.id;
     const eventName = req.params.eventName;
 
@@ -52,16 +49,15 @@ router.get('/insert/:id/:eventName',(req,res) => {
     )
 })
 
-router.get('/insert/:id/:firstName/:lastName/:email/:uuid', (req, res) => {
-    const id = req.params.id;
+router.get('/insert/:firstName/:lastName/:email/:uuid', (req, res) => {
     const firstName = req.params.firstName;
     const lastName = req.params.lastName;
     const email = req.params.email;
     const uuid = req.params.uuid;
     db.run(
         `INSERT INTO hackerTable 
-        VALUES (?, ?, ?, ?, ?)`, 
-        [id, firstName, lastName, email, uuid], 
+        VALUES (1, ?, ?, ?, ?)`, 
+        [firstName, lastName, email, uuid], 
         () => {
             res.send('Insert To Hacker Table Successfully')
         }
@@ -86,7 +82,7 @@ router.get('/updateRow/:table/:updateThis/:toThis', (req, res) => {
       });
 })
 
-router.get('/deleteRow/:table/:toDelete/:deleteDetail', (req, res) => {
+router.post('/deleteRow/:table/:toDelete/:deleteDetail', (req, res) => {
     const table = req.params.table
     const toDelete = req.params.toDelete
     const deleteDetail = req.params.deleteDetail

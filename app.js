@@ -9,6 +9,9 @@ app.use(express.urlencoded({extended: true}))
 const services = require('./services')
 app.use(services)
 
+const formHandler = require('./submissions_handler')
+app.use(formHandler)
+
 app.get('/form', (req, res) => {
     res.sendFile(__dirname + "/form.html")
 })
