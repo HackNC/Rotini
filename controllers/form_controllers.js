@@ -3,8 +3,12 @@ const router = express.Router();
 
 const db = require('../database')
 
-router.get('/form', (req, res) => {
-    res.sendFile(__dirname + "/form.html")
+router.get('/addHackerForm', (req, res) => {
+    res.sendFile(__dirname + "/addHackerForm.html")
+})
+
+router.get('/addEventForm', (req, res) => {
+    res.sendFile(__dirname + "/addEventForm.html")
 })
 
 router.post('/addHacker', (req, res) => {
@@ -18,6 +22,17 @@ router.post('/addHacker', (req, res) => {
             res.redirect('/table/hackerTable')
         }
     )
-  })
+})
+
+router.post('/addEvent', (req, res) => {
+    const eventName = req.body.eventName
+    db.run(
+        `INSERT INTO eventTable (eventName)
+        VALUES (?)`, 
+        [eventName], () => {
+            res.redirect('/table/eventTable')
+        }
+    )
+})
 
 module.exports = router;
