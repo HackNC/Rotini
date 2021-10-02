@@ -23,16 +23,16 @@ router.get('/createEventTable',(req,res)=> {
     res.send("Event Table Created")
 })
 
-router.get('/table/:table', (req, res) => {
-    const table = req.params.table
-    db.all(
-        `SELECT * 
-        FROM ${table}`, (err, rows) => {
-            (err) && console.error(err)
-            res.send(rows)
-        }
-    )
-})
+// router.get('/table/:table', (req, res) => {
+//     const table = req.params.table
+//     db.all(
+//         `SELECT * 
+//         FROM ${table}`, (err, rows) => {
+//             (err) && console.error(err)
+//             res.send(rows)
+//         }
+//     )
+// })
 
 
 router.get('/insert/:eventName',(req,res) => {
