@@ -1,7 +1,11 @@
 const express = require("express")
 const router = express.Router();
 
-const db = require('./database')
+const db = require('../database')
+
+router.get('/form', (req, res) => {
+    res.sendFile(__dirname + "/form.html")
+})
 
 router.post('/submit-form/create', (req, res) => {
     const first_name = req.body.first_name
@@ -15,7 +19,6 @@ router.post('/submit-form/create', (req, res) => {
             res.send(`Insert To hacker Successfully`)
         }
     )
-    // res.end()
   })
 
 module.exports = router;
