@@ -8,11 +8,13 @@
     </tr>
     {{#each table}}
     <tr>
-        <td>{{id}}</td>
+        <td><a href="/hacker/{{id}}/profile">{{id}}</a></td>
         <td>{{firstName}}</td>
         <td>{{lastName}}</td>
         <td>{{email}}</td>
-        <td><button>Delete</button></td>
+        <td>
+            <a href="/hacker/{{id}}/delete">Delete</a>
+        </td>
     </tr>
     {{/each}}
 </table>

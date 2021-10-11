@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Hacker Information</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="" />
+</head>
+<body>
+    <form method="POST" action="/hacker/{{hacker.id}}/update">
+        <label for="first_name">First Name:</label>
+        <input type="text" name="first_name" value="{{hacker.firstName}}"/><br>
+        <label for="last_name">Last Name:</label>
+        <input type="text" name="last_name" value="{{hacker.lastName}}"/><br>
+        <label for="hacker_email">Email:</label>
+        <input type="email" name="hacker_email" value="{{hacker.email}}"/><br>
+        <input type="submit" value="update"/>
+      </form>
+    <img src="{{hackerURL}}">
+</body>
+</html>
