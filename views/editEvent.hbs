@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Hacker Information</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="" />
+</head>
+<body>
+    <form method="POST" action="/event/{{event.id}}/update">
+         <label for="eventName">Event:</label>
+        <input type="text" name="eventName" value = "{{event.eventName}}"/><br>
+        <input type="submit" value ="Update"/>
+      </form>
+</body>
+</html>

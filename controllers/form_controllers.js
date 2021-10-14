@@ -79,4 +79,27 @@ router.get('/event/:id/delete', (req, res) => {
     })
 })
 
+router.get('/event/:id/profile', (req, res) => {
+    const id = req.params.id
+    db.all(
+        `SELECT * FROM eventTable WHERE id=?`, [id], (err, row) => {
+                res.render('editEvent', { event: row[0]})
+            }      
+    )
+})
+
+router.post('/event/:id/update', (req, res) => {
+    const id = req.params.id
+    const eventName = req.body.eventName
+
+    console.log(eventName);
+    db.run(
+        `UPDATE eventTable
+        SET eventName = ?
+        WHERE id=?`, [eventName,id], () => {
+            res.redirect("/table/eventTable")
+        }
+    )
+})
+
 module.exports = router;

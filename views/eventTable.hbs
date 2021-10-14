@@ -6,9 +6,10 @@
     </tr>
     {{#each table}}
     <tr>
-        <td>{{id}}</td>
+        
+        <td><a href = "/event/{{id}}/profile">{{id}}</a></td>
         <td>{{eventName}}</td>
-        <td><a href="/event/:id/delete">Delete</a></td>
+        <td><a href="/event/{{id}}/delete">Delete</a></td>
     </tr>
     {{/each}}
 </table>
