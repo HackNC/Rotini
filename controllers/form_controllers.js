@@ -92,7 +92,6 @@ router.post('/event/:id/update', (req, res) => {
     const id = req.params.id
     const eventName = req.body.eventName
 
-    console.log(eventName);
     db.run(
         `UPDATE eventTable
         SET eventName = ?
