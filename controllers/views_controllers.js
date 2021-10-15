@@ -21,4 +21,13 @@ router.get('/table/eventTable', (req, res) => {
   )
 })
 
+router.get('/table/hackerEventTable',(req,res) => {
+  db.all(
+    'SELECT * FROM hackerEventTable',(err,rows) => {
+      let hackerEventTable = rows
+      res.render('hackerEventTable',{table: hackerEventTable})
+    }
+  )
+})
+
 module.exports = router

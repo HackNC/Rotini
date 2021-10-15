@@ -23,6 +23,24 @@ router.get('/createEventTable',(req,res)=> {
     res.send("Event Table Created")
 })
 
+router.get('/createHackerEvent', (req, res) => {
+    db.serialize(function(){
+        db.run(
+            "CREATE TABLE if not exists hackerEventTable (id integer primary key, hackerId integer, eventId integer)"
+        );
+    });
+    res.send("Event Hacker Table Created")
+})
+
+
+
+
+
+
+
+
+
+
 router.get('/insert/:eventName',(req,res) => {
     const id = req.params.id;
     const eventName = req.params.eventName;

@@ -10,4 +10,7 @@ router.use(forms)
 const views = require('./views_controllers')
 router.use(views)
 
+const email = require('./email_controllers');
+router.use(email)
+
 module.exports = router

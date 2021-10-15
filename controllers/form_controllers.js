@@ -3,7 +3,7 @@ const router = express.Router();
 
 const db = require('../database')
 
-const QRCode = require('qrcode')
+const QRCode = require('qrcode');
 
 
 router.get('/addHackerForm', (req, res) => {
@@ -24,6 +24,35 @@ router.post('/addHacker', (req, res) => {
         [first_name, last_name, hacker_email], () => {
             res.redirect('/table/hackerTable')
         }
+    )
+})
+router.get('/addHackerEventForm',(req, res) => {
+    res.sendFile(__dirname + "/addEventHacker.html")
+})
+
+router.post('/hackerCheckin',(req,res)=>{
+    const hackerId = req.body.hackerId
+    const eventId = req.body.eventId
+
+
+    db.all(
+        `SELECT hackerId FROM hackerEventTable Where eventId = ? AND hackerId = ?`,[eventId,hackerId], (err,rows) => {
+            let queryrows = rows
+            
+            if(rows.length < 1){
+                db.all(
+                `INSERT INTO hackerEventTable (hackerId, eventId)
+                 VALUES (?,?)`,[hackerId,eventId], () => {
+                    res.redirect('/table/hackerEventTable')
+                 }
+                )
+
+            } else {
+                res.send("fail");
+            }
+        }
+
+        
     )
 })
 
