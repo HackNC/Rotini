@@ -12,6 +12,13 @@ const {
   } = require('uuid');
 
 
+router.get('/checkInForm', (req, res) => {
+    res.sendFile(__dirname + "/checkInForm.html")
+})
+
+router.post('/checkIn', (req, res) => {
+    const eventId = req.body.event
+})
 
 router.get('/uploadcsv', (req, res) => {
     res.sendFile(__dirname + "/uploadcsvFrom.html")
@@ -76,7 +83,8 @@ router.post('/hackerCheckin', (req, res) => {
     const hackerId = req.body.hackerId
     const eventId = req.body.eventId
 
-
+    console.log(hackerId, eventId)
+/*
     db.all(
         `SELECT hackerId FROM hackerEventTable Where eventId = ? AND hackerId = ?`, [eventId, hackerId], (err, rows) => {
             let queryrows = rows
@@ -96,6 +104,7 @@ router.post('/hackerCheckin', (req, res) => {
 
 
     )
+    */
 })
 
 router.post('/addEvent', (req, res) => {

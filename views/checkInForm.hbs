@@ -1,0 +1,10 @@
+{{hackerId}}
+
+<form method="POST" action="/hackerCheckIn">
+    <label for="eventId">Event:</label><br>
+    {{#each table}}
+    <input type="radio" name="eventId" value="{{id}}"/>{{eventName}}<br>
+    {{/each}}
+    <input type="hidden" name="hackerId" value="{{hackerId}}" />
+    <input type="submit" />
+</form>
