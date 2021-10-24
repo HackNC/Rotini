@@ -6,7 +6,7 @@ const db = require('../database')
 router.get('/createHackerTable',(req,res)=>{
     db.serialize(function() {
         db.run(
-            "CREATE TABLE if not exists hackerTable (id integer primary key, firstName text, lastName text, email email, uuid blob)"
+            "CREATE TABLE if not exists hackerTable (id integer primary key, firstName text, lastName text, email email, typeformID text unique)"
         );
         // db.close();
     });
