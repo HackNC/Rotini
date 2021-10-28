@@ -27,37 +27,39 @@ transporter.verify((error, success) => {
     }
 })
 
-/*
- * QRCode.toDataURL('I am a pony!', function (err, url) {
-                console.log(url)
-                res.render('editHacker', { hacker: row[0], hackerURL: url })
-            })
- */
+router.get("/sendEmail/all", (req, res) => {
+    db.all(
+        'SELECT firstName, lastName, email from hackerTable', (err, info) => {
+            console.log(info)
+            
+        }
+    )
+})
 
 router.get("/sendEmail/:id", (req, res) => {
     const id = req.params.id
     db.all(
-        'SELECT email from hackerTable WHERE id=?',
-        [id], (err, email) => {
+        'SELECT firstName, lastName, email from hackerTable WHERE id=?',
+        [id], (err, info) => {
             QRCode.toFile(
                 'public/qrcode.png',
                 `http://localhost:4201/checkIn/${id}`, () => {
         
-                let info = transporter.sendMail({
+                let emailBody = transporter.sendMail({
                 from: '"HackNC" <hacknc@hacknc.com>',
-                to: email[0].email,
+                to: info[0].email,
                 subject: "Hello",
                 text: "",
-                html: "Embedded image: <img src='unique@nodemailer.com' />",
+                // html: "Embedded image: <img src='unique@nodemailer.com' />",
                 attachments: [{
-                    filename: 'qrcode.png',
+                    filename: `${info[0].firstName}${info[0].lastName}.png`,
                     path: process.cwd() + "/public/qrcode.png",
                     cid: 'unique@nodemailer.com'
                 }]})
                 .catch((error) => {
                     console.log(error)
                     console.log("Message sent: %s", info.messageId);
-                    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+                    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(emailBody));
                 })
                 .then(() => {
                     res.send("Email sent")
@@ -70,11 +72,20 @@ router.get("/sendEmail/:id", (req, res) => {
 router.get("/checkIn/:hackerId", (req, res) => {
     const hackerId = req.params.hackerId
     db.all(
-        'SELECT * FROM eventTable', (err, rows) => {
-          let eventTable = rows
-          res.render('checkInForm', { hackerId: hackerId, table: eventTable })
+        'SELECT * FROM hackerTable WHERE id=?', [hackerId], (err, info) => {
+            db.all(
+                'SELECT * FROM eventTable', (err, rows) => {
+                    let eventTable = rows
+                    res.render('checkInForm', { 
+                        process: true,
+                        firstName: info[0]["firstName"], 
+                        hackerId: hackerId, 
+                        table: eventTable 
+                    })
+                }
+            )
         }
-      )
+    )
 })
 
 module.exports = router;

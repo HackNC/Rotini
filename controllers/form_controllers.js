@@ -11,11 +11,6 @@ const {
     v4: uuidv4,
   } = require('uuid');
 
-
-router.get('/checkInForm', (req, res) => {
-    res.sendFile(__dirname + "/checkInForm.html")
-})
-
 router.post('/checkIn', (req, res) => {
     const eventId = req.body.event
 })
@@ -83,28 +78,24 @@ router.post('/hackerCheckin', (req, res) => {
     const hackerId = req.body.hackerId
     const eventId = req.body.eventId
 
-    console.log(hackerId, eventId)
-/*
     db.all(
         `SELECT hackerId FROM hackerEventTable Where eventId = ? AND hackerId = ?`, [eventId, hackerId], (err, rows) => {
-            let queryrows = rows
-
             if (rows.length < 1) {
                 db.all(
                     `INSERT INTO hackerEventTable (hackerId, eventId)
-                 VALUES (?,?)`, [hackerId, eventId], () => {
-                    res.redirect('/table/hackerEventTable')
-                }
+                    VALUES (?,?)`, [hackerId, eventId], () => {
+                        res.render('checkInForm', { success: true })
+                    }
                 )
 
             } else {
-                res.send("fail");
+                res.render("checkInForm", {fail: true})
             }
         }
 
 
     )
-    */
+    
 })
 
 router.post('/addEvent', (req, res) => {

@@ -1,5 +1,11 @@
-{{hackerId}}
+<style>
+    h1 {
+       color: yellow; 
+    }
+</style>
 
+{{#if process}}
+<h1>Welcome, {{firstName}}</h1>
 <form method="POST" action="/hackerCheckIn">
     <label for="eventId">Event:</label><br>
     {{#each table}}
@@ -8,3 +14,8 @@
     <input type="hidden" name="hackerId" value="{{hackerId}}" />
     <input type="submit" />
 </form>
+{{else if success}}
+<h1>Success</h1>
+{{else if fail}}
+<h1>Fail</h1>
+{{/if}}
