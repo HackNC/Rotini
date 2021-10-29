@@ -5,6 +5,8 @@ const PORT = process.env.PORT || 4201
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
+app.use(express.static(__dirname + '/public'));
+
 const path = require('path')
 app.set('view engine', 'hbs')
 app.set('views', path.join(__dirname, 'views'))

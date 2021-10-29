@@ -1,21 +1,87 @@
 <style>
-    h1 {
-       color: yellow; 
+    @import url('https://fonts.googleapis.com/css2?family=Lobster+Two&family=Quicksand&display=swap');
+    .container {
+        --persian-plum: #752323;
+        --blond: #FFF8BB;
+        --lobster-two: 'Lobster Two', cursive;
+        --quick-sand: 'Quicksand', sans-serif;
+        margin-bottom: 20px;
     }
+
+    .landing {
+        display: flex;
+        align-items: center;
+        font-size: 300%;
+    }
+
+    h1:hover {
+        cursor: pointer;
+        transform: scale(1.1);
+    }
+
+    img {
+        width: 700px;
+    }
+    .container {
+        background: var(--persian-plum);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        color: var(--blond);
+        font-family: var(--lobster-two);
+    }
+
+    form {
+        height: 100%;
+        font-family: var(--quick-sand);
+    }
+    label {
+        font-size: 300%;
+        margin-bottom: 40px;
+    }
+    input {
+        cursor: pointer;
+        margin-bottom: 20px;
+    }
+
+    .button {
+        background-color: var(--blond); /* Green */
+        border: none;
+        color: var(--persian-plum);
+        padding: 2% 3%;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 7px;
+    }
+
+    .button:hover {
+        transform: scale(1.1)
+    }
+    
 </style>
 
 {{#if process}}
-<h1>Welcome, {{firstName}}</h1>
+<div class="container">
+    <div class="landing">
+        <img src="LandingGraphic.png" alt="landing graphic" />
+        <h1>Welcome, {{firstName}}</h1>
+    </div>
 <form method="POST" action="/hackerCheckIn">
-    <label for="eventId">Event:</label><br>
+    <label for="eventId">Choose an event to check in:</label><br>
     {{#each table}}
-    <input type="radio" name="eventId" value="{{id}}"/>{{eventName}}<br>
+    <input type="radio" name="eventId" value="{{id}}" required/>{{eventName}}<br>
     {{/each}}
     <input type="hidden" name="hackerId" value="{{hackerId}}" />
-    <input type="submit" />
+    <input class="button" type="submit" />
 </form>
+
 {{else if success}}
 <h1>Success</h1>
+
 {{else if fail}}
 <h1>Fail</h1>
 {{/if}}
+</div>

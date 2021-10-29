@@ -73,9 +73,9 @@ router.get("/checkIn/:hackerId", (req, res) => {
     const hackerId = req.params.hackerId
     db.all(
         'SELECT * FROM hackerTable WHERE id=?', [hackerId], (err, info) => {
+            console.log(info)
             db.all(
-                'SELECT * FROM eventTable', (err, rows) => {
-                    let eventTable = rows
+                'SELECT * FROM eventTable', (err, eventTable) => {
                     res.render('checkInForm', { 
                         process: true,
                         firstName: info[0]["firstName"], 

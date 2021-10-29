@@ -1,0 +1,9 @@
+img {
+    width: 700px;
+}
+.container {
+    background: #752323;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

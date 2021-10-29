@@ -74,6 +74,19 @@ router.get('/addHackerEventForm', (req, res) => {
     res.sendFile(__dirname + "/addEventHacker.html")
 })
 
+router.get('/checkInForm', (req, res) => {
+    db.all(
+        'SELECT * FROM eventTable', (err, eventTable) => {
+            res.render('checkInForm', { 
+                process: true, 
+                firstName: "Thi", 
+                hackerId: 1, 
+                table: eventTable
+            })
+        }
+    )
+})
+
 router.post('/hackerCheckin', (req, res) => {
     const hackerId = req.body.hackerId
     const eventId = req.body.eventId
