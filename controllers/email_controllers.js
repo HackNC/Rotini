@@ -43,7 +43,7 @@ router.get("/sendEmail/:id", (req, res) => {
         [id], (err, info) => {
             QRCode.toFile(
                 'public/qrcode.png',
-                `http://147.182.128.191:4201/checkIn/${id}`, () => {
+                `https://rotini.hacknc.com/checkIn/${id}`, () => {
         
                 let emailBody = transporter.sendMail({
                 from: '"HackNC" <hacknc@hacknc.com>',
