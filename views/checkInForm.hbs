@@ -1,11 +1,16 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Lobster+Two&family=Quicksand&display=swap');
+    body {
+        padding: 0;
+        margin: 0;
+    }
+    
     .container {
         --persian-plum: #752323;
         --blond: #FFF8BB;
         --lobster-two: 'Lobster Two', cursive;
         --quick-sand: 'Quicksand', sans-serif;
-        margin-bottom: 20px;
+        padding-bottom: 20px;
     }
 
     .landing {
@@ -32,7 +37,7 @@
         font-family: var(--lobster-two);
     }
 
-    form {
+    form, p {
         height: 100%;
         font-family: var(--quick-sand);
     }
@@ -66,7 +71,7 @@
 {{#if process}}
 <div class="container">
     <div class="landing">
-        <img src="LandingGraphic.png" alt="landing graphic" />
+        <img src="/LandingGraphic.png" alt="landing graphic" />
         <h1>Welcome, {{firstName}}</h1>
     </div>
 <form method="POST" action="/hackerCheckIn">
@@ -77,11 +82,18 @@
     <input type="hidden" name="hackerId" value="{{hackerId}}" />
     <input class="button" type="submit" />
 </form>
+</div>
 
 {{else if success}}
-<h1>Success</h1>
+<div>
+    <h1 class="container">Success</h1>
+</div>
 
 {{else if fail}}
-<h1>Fail</h1>
-{{/if}}
+<div class="container">
+    <h1>Unable to check in</h1>
+    <p>However, it looks that you are already checked in for this event.
+        If you think there might have been a mistake, please reach out to one of the volunteers.
+    </p>
 </div>
+{{/if}}
