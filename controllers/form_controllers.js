@@ -48,7 +48,7 @@ router.post('/addData', (req, res) => {
                         `,
                         [output[i][1], output[i][2], output[i][5], output[i][0]], () => {
 
-                        })
+                    })
            
                 }
                 res.redirect('/table/hackerTable')

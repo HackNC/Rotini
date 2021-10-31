@@ -27,11 +27,54 @@ transporter.verify((error, success) => {
     }
 })
 
+function sendEmail(err, info) {
+    QRCode.toFile(
+        'public/qrcode.png',
+        `https://rotini.hacknc.com/checkIn/${info.id}`, () => {
+
+        let emailBody = transporter.sendMail({
+        from: '"HackNC" <hacknc@hacknc.com>',
+        to: info.email,
+        subject: "Hello",
+        text: "",
+        html: `
+        <div 
+            style="
+                background-color: yellow;
+                
+            "
+        >
+            Hello ${info.firstName}, <br><br>
+            
+            Thanks for participating in HackNC. You can find below a QR code that you can use to get food and swag at the in-person event. See you then!
+
+            <br><br><img src='cid:unique@nodemailer.com' />
+        </div>
+        `
+        ,
+        attachments: [{
+            filename: `${info.firstName}${info.lastName}.png`,
+            path: process.cwd() + "/public/qrcode.png",
+            cid: 'unique@nodemailer.com'
+        }]})
+        .catch((error) => {
+            console.log(error)
+            console.log("Message sent: %s", info.messageId);
+            console.log("Preview URL: %s", nodemailer.getTestMessageUrl(emailBody));
+        })
+        // .then(() => {
+        //     res.send("Email sent")
+        // });
+    })
+}
+
 router.get("/sendEmail/all", (req, res) => {
     db.all(
-        'SELECT firstName, lastName, email from hackerTable', (err, info) => {
-            console.log(info)
-            
+        'SELECT id, firstName, lastName, email from hackerTable', (err, rows) => {
+            for (let i = 0; i < rows.length; i++) {
+                sendEmail(err, rows[i])
+            }
+            res.send("Email sent")
         }
     )
 })
@@ -39,32 +82,10 @@ router.get("/sendEmail/all", (req, res) => {
 router.get("/sendEmail/:id", (req, res) => {
     const id = req.params.id
     db.all(
-        'SELECT firstName, lastName, email from hackerTable WHERE id=?',
+        'SELECT id, firstName, lastName, email from hackerTable WHERE id=?',
         [id], (err, info) => {
-            QRCode.toFile(
-                'public/qrcode.png',
-                `https://rotini.hacknc.com/checkIn/${id}`, () => {
-        
-                let emailBody = transporter.sendMail({
-                from: '"HackNC" <hacknc@hacknc.com>',
-                to: info[0].email,
-                subject: "Hello",
-                text: "",
-                // html: "Embedded image: <img src='unique@nodemailer.com' />",
-                attachments: [{
-                    filename: `${info[0].firstName}${info[0].lastName}.png`,
-                    path: process.cwd() + "/public/qrcode.png",
-                    cid: 'unique@nodemailer.com'
-                }]})
-                .catch((error) => {
-                    console.log(error)
-                    console.log("Message sent: %s", info.messageId);
-                    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(emailBody));
-                })
-                .then(() => {
-                    res.send("Email sent")
-                });
-            })
+            sendEmail(err, info[0])
+            res.send("Email sent")
         }
     )
 })
