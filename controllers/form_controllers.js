@@ -92,7 +92,7 @@ router.post('/hackerCheckin', (req, res) => {
     const eventId = req.body.eventId
 
     db.all(
-        `SELECT hackerId FROM hackerEventTable Where eventId = ? AND hackerId = ?`, [eventId, hackerId], (err, rows) => {
+        `SELECT hackerId FROM hackerEventTable WHERE eventId=? AND hackerId=?`, [eventId, hackerId], (err, rows) => {
             if (rows.length < 1) {
                 db.all(
                     `INSERT INTO hackerEventTable (hackerId, eventId)
