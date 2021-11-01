@@ -33,22 +33,32 @@ function sendEmail(err, info) {
         `https://rotini.hacknc.com/checkIn/${info.id}`, () => {
 
         let emailBody = transporter.sendMail({
-        from: '"HackNC" <hacknc@hacknc.com>',
+        from: '"HackNC" <registration@hacknc.com>',
         to: info.email,
-        subject: "Hello",
+        subject: "Are you ready for HackNC 2021?",
         text: "",
         html: `
         <div 
             style="
-                background-color: yellow;
-                
+                color: black;
             "
         >
             Hello ${info.firstName}, <br><br>
             
-            Thanks for participating in HackNC. You can find below a QR code that you can use to get food and swag at the in-person event. See you then!
+            Thanks for participating in HackNC 2021! 
+            Attached in this email is a QR code that you can use 
+            to get food and swag at the in-person event.
+            Please save the code, we'll give further instructions on how to use them.
+            The HackNC team is excited to have you this weekend. See you then!
 
-            <br><br><img src='cid:unique@nodemailer.com' />
+            <br>
+            <br>Find more details about the event on <a style="color: black" href="https://www.hacknc.com">hacknc.com<a>
+            <br>Stay up to date with us on Instagram <a style="color: black" href="https://www.instagram.com/thehacknc/">@thehacknc</a>
+            <br>Have questions? Reach out to us at <a style="color: black" href="mailto:registration@hacknc.com">registration@hacknc.com</a>.
+            <!-- <br><br><img src='cid:unique@nodemailer.com' /> -->
+            <br>
+            <br>Best,
+            <br>HackNC 2021
         </div>
         `
         ,
@@ -94,7 +104,6 @@ router.get("/checkIn/:hackerId", (req, res) => {
     const hackerId = req.params.hackerId
     db.all(
         'SELECT * FROM hackerTable WHERE id=?', [hackerId], (err, info) => {
-            console.log(info)
             db.all(
                 'SELECT * FROM eventTable', (err, eventTable) => {
                     res.render('checkInForm', { 

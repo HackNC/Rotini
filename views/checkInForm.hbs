@@ -10,27 +10,40 @@
         --blond: #FFF8BB;
         --lobster-two: 'Lobster Two', cursive;
         --quick-sand: 'Quicksand', sans-serif;
-        padding-bottom: 20px;
+
+        height: 100vh;
+        overflow: scroll;
     }
 
     .landing {
         display: flex;
         align-items: center;
-        font-size: 300%;
     }
 
+    .main {
+        display: flex;
+        flex-direction: column;
+        justify-content: baseline;
+        align-items: center;
+    }
+    h1 {
+        font-size: 70px;
+        padding: 0;
+        margin: 0;
+    }
     h1:hover {
         cursor: pointer;
         transform: scale(1.1);
     }
 
     img {
-        width: 700px;
+        width: 500px;
     }
     .container {
         background: var(--persian-plum);
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: center;
         align-items: center;
 
         color: var(--blond);
@@ -40,17 +53,29 @@
     form, p {
         height: 100%;
         font-family: var(--quick-sand);
+        padding: 20px 40px;
+        text-align: justify;
     }
+
     label {
-        font-size: 300%;
-        margin-bottom: 40px;
+        font-size: 200%;
     }
+
+    .form-control {
+        line-height: 2;
+    }
+
     input {
         cursor: pointer;
         margin-bottom: 20px;
     }
 
+    input[type="radio"] {
+        line-height: 105%;
+    }
+
     .button {
+        font-family: var(--lobster-two);
         background-color: var(--blond); /* Green */
         border: none;
         color: var(--persian-plum);
@@ -58,42 +83,59 @@
         text-align: center;
         text-decoration: none;
         display: inline-block;
-        font-size: 16px;
+        font-size: 20px;
         border-radius: 7px;
+        cursor: pointer;
+    }
+
+    a {
+        text-decoration: none;
+        color: var(--persian-plum);
+        font-size: 20px;
     }
 
     .button:hover {
         transform: scale(1.1)
     }
+
+    @media screen and (max-width: 992px) {
+        .container {
+            flex-direction: column;
+        }
+    }
     
 </style>
 
-{{#if process}}
 <div class="container">
     <div class="landing">
         <img src="/LandingGraphic.png" alt="landing graphic" />
-        <h1>Welcome, {{firstName}}</h1>
     </div>
-<form method="POST" action="/hackerCheckIn">
-    <label for="eventId">Choose an event to check in:</label><br>
-    {{#each table}}
-    <input type="radio" name="eventId" value="{{id}}" required/>{{eventName}}<br>
-    {{/each}}
-    <input type="hidden" name="hackerId" value="{{hackerId}}" />
-    <input class="button" type="submit" />
-</form>
-</div>
+    <div class="main">
+        {{#if process}}
+        <h1>Hello, {{firstName}}</h1>
+    
+        <form method="POST" action="/hackerCheckIn">
+            <label class="form-control" for="eventId">Choose an event to check in:</label><br>
+            {{#each table}}
+            <input type="radio" name="eventId" value="{{id}}" required/>{{eventName}}<br>
+            {{/each}}
+            <input type="hidden" name="hackerId" value="{{hackerId}}" />
+            <input class="button" type="submit" />
+        </form>
 
-{{else if success}}
-<div>
-    <h1 class="container">Success</h1>
-</div>
+        {{else if success}}
+        <h1>Success!</h1>
+        <p>You are successfully checked in.
+            If you have any questions, please reach out to one of our volunteers.
+        </p>
+        <div class="button"><a href="https://www.hacknc.com">HackNC</a></div>
 
-{{else if fail}}
-<div class="container">
-    <h1>Unable to check in</h1>
-    <p>However, it looks that you are already checked in for this event.
-        If you think there might have been a mistake, please reach out to one of the volunteers.
-    </p>
+        {{else if fail}}
+        <h1>Unable to check in</h1>
+        <p>It looks that you are already checked in for this event.
+            If you think there might have been a mistake, please reach out to one of our volunteers.
+        </p>
+        <div class="button"><a href="https://www.hacknc.com">HackNC</a></div>
+    </div>
 </div>
 {{/if}}
