@@ -59,6 +59,7 @@ function sendEmail(err, info) {
             <br>
             <br>Best,
             <br>HackNC 2021
+            <img src='cid:unique@nodemailer.com' />
         </div>
         `
         ,
