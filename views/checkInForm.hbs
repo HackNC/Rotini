@@ -3,6 +3,7 @@
     body {
         padding: 0;
         margin: 0;
+        height: 100%;
     }
     
     .container {
@@ -11,8 +12,9 @@
         --lobster-two: 'Lobster Two', cursive;
         --quick-sand: 'Quicksand', sans-serif;
 
-        height: 100vh;
+        height: 100%;
         overflow: scroll;
+        padding: 10px;
     }
 
     .landing {
@@ -25,6 +27,7 @@
         flex-direction: column;
         justify-content: baseline;
         align-items: center;
+        padding: 30px;
     }
     h1 {
         font-size: 70px;
@@ -37,9 +40,10 @@
     }
 
     img {
-        width: 500px;
+        width: 650px;
     }
     .container {
+        position: relative;
         background: var(--persian-plum);
         display: flex;
         flex-direction: row;
@@ -53,25 +57,30 @@
     form, p {
         height: 100%;
         font-family: var(--quick-sand);
-        padding: 20px 40px;
-        text-align: justify;
+        align-items: justify;
     }
 
     label {
-        font-size: 200%;
+        font-size: 50px;
     }
 
     .form-control {
-        line-height: 2;
+        line-height: 1.3;
     }
 
     input {
         cursor: pointer;
-        margin-bottom: 20px;
+        margin: 0;
     }
 
-    input[type="radio"] {
-        line-height: 105%;
+    input[type='radio'] {
+        border-style: none;
+        border-radius: 50%;
+        width: 25px;
+        height: 25px;
+        border: 2px solid #999;
+        transition: 0.2s all linear;
+        margin: 20px;
     }
 
     .button {
@@ -83,7 +92,7 @@
         text-align: center;
         text-decoration: none;
         display: inline-block;
-        font-size: 20px;
+        font-size: 40px;
         border-radius: 7px;
         cursor: pointer;
     }
@@ -91,7 +100,7 @@
     a {
         text-decoration: none;
         color: var(--persian-plum);
-        font-size: 20px;
+        font-size: 40px;
     }
 
     .button:hover {
@@ -101,6 +110,7 @@
     @media screen and (max-width: 992px) {
         .container {
             flex-direction: column;
+            justify-content: flex-start;
         }
     }
     
@@ -117,7 +127,10 @@
         <form method="POST" action="/hackerCheckIn">
             <label class="form-control" for="eventId">Choose an event to check in:</label><br>
             {{#each table}}
-            <input type="radio" name="eventId" value="{{id}}" required/>{{eventName}}<br>
+            <div style="display: flex; flex-direction: row;">
+                <input class="radio" type="radio" name="eventId" value="{{id}}" required/>
+                <div style="padding: 0; margin: 0; font-size: 40px">{{eventName}}</div>
+            </div><br>
             {{/each}}
             <input type="hidden" name="hackerId" value="{{hackerId}}" />
             <input class="button" type="submit" />
@@ -125,14 +138,14 @@
 
         {{else if success}}
         <h1>Success!</h1>
-        <p>You are successfully checked in.
+        <p style="font-size: 40px">You are successfully checked in.
             If you have any questions, please reach out to one of our volunteers.
         </p>
         <div class="button"><a href="https://www.hacknc.com">HackNC</a></div>
 
         {{else if fail}}
         <h1>Unable to check in</h1>
-        <p>It looks that you are already checked in for this event.
+        <p style="font-size: 40px">It looks that you are already checked in for this event.
             If you think there might have been a mistake, please reach out to one of our volunteers.
         </p>
         <div class="button"><a href="https://www.hacknc.com">HackNC</a></div>
