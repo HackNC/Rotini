@@ -120,4 +120,4 @@ dist
 *.db
 
 .env
-qrcode.png
+qrcode

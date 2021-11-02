@@ -29,7 +29,7 @@ transporter.verify((error, success) => {
 
 function sendEmail(err, info) {
     QRCode.toFile(
-        'public/qrcode.png',
+        `public/qrcode/${info.firstName}${info.lastName}.png`,
         `https://rotini.hacknc.com/checkIn/${info.id}`, () => {
 
         let emailBody = transporter.sendMail({
@@ -59,13 +59,13 @@ function sendEmail(err, info) {
             <br>
             <br>Best,
             <br>HackNC 2021
-            <img src='cid:unique@nodemailer.com' />
+            <br><br><img src='cid:unique@nodemailer.com' />
         </div>
         `
         ,
         attachments: [{
             filename: `${info.firstName}${info.lastName}.png`,
-            path: process.cwd() + "/public/qrcode.png",
+            path: process.cwd() + `/public/qrcode/${info.firstName}${info.lastName}.png`,
             cid: 'unique@nodemailer.com'
         }]})
         .catch((error) => {
@@ -73,17 +73,14 @@ function sendEmail(err, info) {
             console.log("Message sent: %s", info.messageId);
             console.log("Preview URL: %s", nodemailer.getTestMessageUrl(emailBody));
         })
-        // .then(() => {
-        //     res.send("Email sent")
-        // });
     })
 }
 
 router.get("/sendEmail/all", (req, res) => {
     db.all(
         'SELECT id, firstName, lastName, email from hackerTable', (err, rows) => {
-            for (let i = 0; i < rows.length; i++) {
-                sendEmail(err, rows[i])
+            for (let info of rows) {
+                sendEmail(err, info)
             }
             res.send("Email sent")
         }
