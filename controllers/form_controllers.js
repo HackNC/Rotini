@@ -11,10 +11,6 @@ const {
     v4: uuidv4,
   } = require('uuid');
 
-router.post('/checkIn', (req, res) => {
-    const eventId = req.body.event
-})
-
 router.get('/uploadcsv', (req, res) => {
     res.sendFile(__dirname + "/uploadcsvFrom.html")
 })
@@ -77,14 +73,29 @@ router.get('/addHackerEventForm', (req, res) => {
 router.get('/checkInForm', (req, res) => {
     db.all(
         'SELECT * FROM eventTable', (err, eventTable) => {
-            res.render('checkInForm', { 
-                process: true, 
-                firstName: "Thi", 
-                hackerId: 1, 
-                table: eventTable
-            })
+            if (eventTable.length === 0) {
+                res.render('checkInForm', {
+                    process: true,
+                    noEvent: true
+                })
+            } else {
+                res.render('checkInForm', { 
+                    process: true, 
+                    noEvent: false,
+                    firstName: "Thi", 
+                    hackerId: 1, 
+                    table: eventTable
+                })
+            }
         }
     )
+})
+
+router.get('/', (req, res) => {
+    res.render('checkInForm', { 
+        home: true,
+        process: false
+    })
 })
 
 router.post('/hackerCheckin', (req, res) => {

@@ -104,12 +104,22 @@ router.get("/checkIn/:hackerId", (req, res) => {
         'SELECT * FROM hackerTable WHERE id=?', [hackerId], (err, info) => {
             db.all(
                 'SELECT * FROM eventTable', (err, eventTable) => {
-                    res.render('checkInForm', { 
-                        process: true,
-                        firstName: info[0]["firstName"], 
-                        hackerId: hackerId, 
-                        table: eventTable 
-                    })
+                    if (eventTable.length === 0) {
+                        res.render('checkInForm', {
+                            process: true,
+                            noEvent: true,
+                            firstName: info[0]["firstName"], 
+                            hackerId: hackerId
+                        })
+                    } else {
+                        res.render('checkInForm', { 
+                            process: true,
+                            noEvent: false,
+                            firstName: info[0]["firstName"], 
+                            hackerId: hackerId, 
+                            table: eventTable 
+                        })
+                    }
                 }
             )
         }

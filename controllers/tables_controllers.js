@@ -32,15 +32,6 @@ router.get('/createHackerEvent', (req, res) => {
     res.send("Event Hacker Table Created")
 })
 
-
-
-
-
-
-
-
-
-
 router.get('/insert/:eventName',(req,res) => {
     const id = req.params.id;
     const eventName = req.params.eventName;
