@@ -38,28 +38,24 @@ function sendEmail(err, info) {
         subject: "Are you ready for HackNC 2021?",
         text: "",
         html: `
-        <div 
-            style="
-                color: black;
-            "
-        >
-            Hello ${info.firstName}, <br><br>
+        <div style="color: black">
+            <div style="color: black">Hello ${info.firstName}, </div><br>
             
-            Thanks for participating in HackNC 2021! 
+            <div style="color: black">Thanks for participating in HackNC 2021! 
             Attached in this email is a QR code that you can use 
-            to get food and swag at the in-person event.
-            Please save the code, we'll give further instructions on how to use them.
-            The HackNC team is excited to have you this weekend. See you then!
+            to get food and swag at the in-person events.
+            Please save the code and we will give further instructions on how to use them.
+            The HackNC team is excited to have you this weekend. See you then!</div>
 
-            <br>
-            <br>Find more details about the event on <a style="color: black" href="https://www.hacknc.com">hacknc.com<a>
+            <div style="color: black">
             <br>Stay up to date with us on Instagram <a style="color: black" href="https://www.instagram.com/thehacknc/">@thehacknc</a>
-            <br>Have questions? Reach out to us at <a style="color: black" href="mailto:registration@hacknc.com">registration@hacknc.com</a>.
+            <br>Have questions? Reach out to us at <a style="color: black" href="mailto:registration@hacknc.com">registration@hacknc.com</a>
             <!-- <br><br><img src='cid:unique@nodemailer.com' /> -->
+
             <br>
             <br>Best,
             <br>HackNC 2021
-            <br><br><img src='cid:unique@nodemailer.com' />
+            <br><br><img src='cid:unique@nodemailer.com' /> </div>
         </div>
         `
         ,
