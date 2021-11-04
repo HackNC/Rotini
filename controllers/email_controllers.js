@@ -72,6 +72,20 @@ function sendEmail(err, info) {
     })
 }
 
+router.get("/sendEmail/from/:start/to/:end", (req, res) => {
+    const start = req.params.start
+    const end = req.params.end
+    db.all(
+        `SELECT id, firstName, lastName, email from hackerTable WHERE id>=? and id<=?`, 
+        [start, end], (err, rows) => {
+            for (let info of rows) {
+                sendEmail(err, info)
+            }
+            res.send("Email sent")
+        }
+    )
+})
+
 router.get("/sendEmail/all", (req, res) => {
     db.all(
         'SELECT id, firstName, lastName, email from hackerTable', (err, rows) => {
