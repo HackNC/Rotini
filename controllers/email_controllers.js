@@ -33,7 +33,7 @@ function sendEmail(err, info) {
         `https://rotini.hacknc.com/checkIn/${info.id}`, () => {
 
         let emailBody = transporter.sendMail({
-        from: '"HackNC" <thi.le@unc.edu>',
+        from: '"HackNC 2021" <registration@hacknc.com>',
         to: info.email,
         subject: "Are you ready for HackNC 2021?",
         text: "",
